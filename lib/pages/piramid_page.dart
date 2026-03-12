@@ -33,22 +33,22 @@ class _PiramidPageState extends State<PiramidPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Pyramid")),
+      appBar: AppBar(title: const Text("Piramid")),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(28.0),
         child: Column(
           children: [
-            TextField(controller: _sisiController, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Base Length (s)", prefixIcon: Icon(Icons.square_foot_rounded))),
+            TextField(controller: _sisiController, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Panjang Sisi Alas (s)", prefixIcon: Icon(Icons.square_foot_rounded))),
             const SizedBox(height: 16),
-            TextField(controller: _tinggiController, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Pyramid Height (t)", prefixIcon: Icon(Icons.height_rounded))),
+            TextField(controller: _tinggiController, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Tinggi Piramid (t)", prefixIcon: Icon(Icons.height_rounded))),
             const SizedBox(height: 24),
-            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: _hitungPiramid, child: const Text("CALCULATE"))),
+            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: _hitungPiramid, child: const Text("HITUNG LUAS & VOLUME"))),
             const SizedBox(height: 32),
             Row(
               children: [
                 Expanded(child: _buildResultCard("Volume", _hasilVolume)),
                 const SizedBox(width: 16),
-                Expanded(child: _buildResultCard("Surface Area", _hasilLuas)),
+                Expanded(child: _buildResultCard("Luas Permukaan", _hasilLuas)),
               ],
             )
           ],

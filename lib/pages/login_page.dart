@@ -9,72 +9,120 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  final TextEditingController _usernameController = TextEditingController();
-  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _nimController = TextEditingController();
   String errorMessage = "";
-  bool _isObscure = true;
+
+  final Map<String, String> validUsers = {
+    '123230188': 'Yusuf Nur Ramadhan',
+    '123230115': 'Kevin Dwi Cahyadi',
+    '123230137': 'M. Bintang Al-Kautsar',
+    '123230042': 'Irham Hadi Putra',
+  };
 
   void _login() {
-    if (_usernameController.text == "admin" && _passwordController.text == "1234") {
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+    String inputNim = _nimController.text.trim();
+    if (validUsers.containsKey(inputNim)) {
+      String userName = validUsers[inputNim]!;
+      Navigator.pushReplacement(
+        context, 
+        MaterialPageRoute(builder: (context) => HomePage(userName: userName))
+      );
     } else {
-      setState(() => errorMessage = "Username atau password salah!");
+      setState(() => errorMessage = "NIM tidak ditemukan. Silakan coba lagi.");
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    const primaryColor = Color(0xFF4338CA); 
+
     return Scaffold(
-      body: Center(
-        child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 28.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Ikon dengan Gradasi Premium
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    shape: BoxShape.circle,
-                    boxShadow: [BoxShadow(color: const Color(0xFF4338CA).withOpacity(0.15), blurRadius: 30, offset: const Offset(0, 10))],
+      backgroundColor: const Color(0xFFF8FAFC),
+      body: SafeArea(
+        child: Center(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 32.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center, 
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEEF2FF),
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [BoxShadow(color: primaryColor.withOpacity(0.1), blurRadius: 20, offset: const Offset(0, 10))],
+                    ),
+                    child: const Icon(Icons.code_rounded, size: 48, color: primaryColor),
                   ),
-                  child: const Icon(Icons.fingerprint, size: 56, color: Color(0xFF4338CA)),
-                ),
-                const SizedBox(height: 32),
-                const Text("Welcome Back", style: TextStyle(fontSize: 28, fontWeight: FontWeight.w800, color: Color(0xFF1E293B), letterSpacing: -0.5)),
-                const SizedBox(height: 8),
-                const Text("Please sign in to your account", style: TextStyle(fontSize: 15, color: Color(0xFF64748B))),
-                const SizedBox(height: 48),
-                
-                TextField(
-                  controller: _usernameController,
-                  decoration: const InputDecoration(hintText: "Username", prefixIcon: Icon(Icons.person_outline)),
-                ),
-                const SizedBox(height: 16),
-                
-                TextField(
-                  controller: _passwordController,
-                  obscureText: _isObscure,
-                  decoration: InputDecoration(
-                    hintText: "Password",
-                    prefixIcon: const Icon(Icons.lock_outline),
-                    suffixIcon: IconButton(
-                      icon: Icon(_isObscure ? Icons.visibility_off_outlined : Icons.visibility_outlined, color: const Color(0xFF94A3B8)),
-                      onPressed: () => setState(() => _isObscure = !_isObscure),
+                  const SizedBox(height: 32),
+                  
+                  const Text(
+                    "Selamat Datang Di\nTugas 2 Teknologi\n Pemrograman Mobile.", 
+                    textAlign: TextAlign.center, 
+                    style: TextStyle(fontSize: 28, fontWeight: FontWeight.w900, color: Color(0xFF1E293B), height: 1.2, letterSpacing: -0.5)
+                  ),
+                  const SizedBox(height: 12),
+                  const Text(
+                    "Silakan masukkan NIM Anda.", 
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 15, color: Color(0xFF64748B), height: 1.5)
+                  ),
+                  // ----------------------------------------
+                  
+                  const SizedBox(height: 48),
+                  
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      boxShadow: [BoxShadow(color: const Color(0xFF1E293B).withOpacity(0.03), blurRadius: 15, offset: const Offset(0, 5))],
+                    ),
+                    child: TextField(
+                      controller: _nimController,
+                      keyboardType: TextInputType.number,
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                      decoration: InputDecoration(
+                        hintText: "NIM...",
+                        hintStyle: const TextStyle(color: Color(0xFF94A3B8), fontWeight: FontWeight.normal),
+                        prefixIcon: const Icon(Icons.numbers_rounded, color: primaryColor),
+                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+                        contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-                
-                if (errorMessage.isNotEmpty) ...[
-                  Text(errorMessage, style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600)),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
+                  
+                  if (errorMessage.isNotEmpty) ...[
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center, 
+                      children: [
+                        const Icon(Icons.error_outline_rounded, color: Colors.redAccent, size: 20),
+                        const SizedBox(width: 8),
+                        Text(errorMessage, style: const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600, fontSize: 14)),
+                      ],
+                    ),
+                    const SizedBox(height: 24),
+                  ],
+                  
+                  SizedBox(
+                    width: double.infinity,
+                    height: 56,
+                    child: ElevatedButton(
+                      onPressed: _login,
+                      child: const Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text("Access Dashboard", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 0.5)),
+                          SizedBox(width: 8),
+                          Icon(Icons.arrow_forward_rounded, size: 20),
+                        ],
+                      ),
+                    ),
+                  ),
                 ],
-                
-                SizedBox(width: double.infinity, child: ElevatedButton(onPressed: _login, child: const Text("SIGN IN"))),
-              ],
+              ),
             ),
           ),
         ),

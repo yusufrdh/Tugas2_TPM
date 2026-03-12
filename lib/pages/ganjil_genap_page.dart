@@ -27,8 +27,8 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
         _hasilGanjilGenap = "Input Invalid";
         _hasilPrima = "";
       } else {
-        _hasilGanjilGenap = (angka % 2 == 0) ? "Even Number (Genap)" : "Odd Number (Ganjil)";
-        _hasilPrima = isPrime(angka) ? "Prime Number" : "Not Prime";
+        _hasilGanjilGenap = (angka % 2 == 0) ? "Bilangan Genap" : "Bilangan Ganjil";
+        _hasilPrima = isPrime(angka) ? "Bilangan Prima" : "Bukan Prima";
       }
     });
   }
@@ -36,14 +36,14 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Number Check")),
+      appBar: AppBar(title: const Text("Cek Angka")),
       body: Padding(
         padding: const EdgeInsets.all(28.0),
         child: Column(
           children: [
-            TextField(controller: _controller, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Enter a number", prefixIcon: Icon(Icons.tag_rounded))),
+            TextField(controller: _controller, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Masukkan 1 Angka", prefixIcon: Icon(Icons.tag_rounded))),
             const SizedBox(height: 24),
-            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: cekBilangan, child: const Text("CHECK STATUS"))),
+            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: cekBilangan, child: const Text("CEK STATUS BILANGAN"))),
             const SizedBox(height: 40),
             if (_hasilGanjilGenap.isNotEmpty)
               Container(

@@ -10,9 +10,8 @@ class CalculatorApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // WARNA PRIMER APLIKASI: Tech Indigo (Elegan & Mahal)
     const primaryColor = Color(0xFF4338CA); 
-    const bgColor = Color(0xFFF8FAFC); // Slate 50 (Abu-abu sangat muda)
+    const bgColor = Color(0xFFF8FAFC); 
 
     return MaterialApp(
       title: 'Tugas Mobile Programming',
@@ -20,9 +19,7 @@ class CalculatorApp extends StatelessWidget {
         scaffoldBackgroundColor: bgColor,
         primaryColor: primaryColor,
         colorScheme: ColorScheme.fromSeed(seedColor: primaryColor, primary: primaryColor),
-        fontFamily: 'Roboto', // Default font yang clean
-        
-        // GLOBAL APP BAR THEME
+        fontFamily: 'Roboto', 
         appBarTheme: const AppBarTheme(
           backgroundColor: bgColor,
           elevation: 0,
@@ -30,8 +27,6 @@ class CalculatorApp extends StatelessWidget {
           iconTheme: IconThemeData(color: Color(0xFF1E293B)),
           titleTextStyle: TextStyle(color: Color(0xFF1E293B), fontSize: 18, fontWeight: FontWeight.w700, letterSpacing: 0.5),
         ),
-
-        // GLOBAL TEXT FIELD THEME (Biar semua input senada)
         inputDecorationTheme: InputDecorationTheme(
           filled: true,
           fillColor: Colors.white,
@@ -42,8 +37,6 @@ class CalculatorApp extends StatelessWidget {
           focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: primaryColor, width: 2)),
           errorBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: const BorderSide(color: Colors.redAccent, width: 1)),
         ),
-
-        // GLOBAL BUTTON THEME
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
             backgroundColor: primaryColor,

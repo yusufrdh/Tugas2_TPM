@@ -27,14 +27,14 @@ class _CalculatorPageState extends State<CalculatorPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Calculator")),
+      appBar: AppBar(title: const Text("Aritmatik")),
       body: Padding(
         padding: const EdgeInsets.all(28.0),
         child: Column(
           children: [
-            TextField(controller: _controller1, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "First Number", prefixIcon: Icon(Icons.looks_one_rounded))),
+            TextField(controller: _controller1, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Angka Pertama", prefixIcon: Icon(Icons.looks_one_rounded))),
             const SizedBox(height: 16),
-            TextField(controller: _controller2, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Second Number", prefixIcon: Icon(Icons.looks_two_rounded))),
+            TextField(controller: _controller2, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Angka Kedua", prefixIcon: Icon(Icons.looks_two_rounded))),
             const SizedBox(height: 32),
             Row(
               children: [
@@ -44,7 +44,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
               ],
             ),
             const SizedBox(height: 48),
-            const Text("Result", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8))),
+            const Text("Hasil Penjumlahan / Pengurangan", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8))),
             const SizedBox(height: 8),
             Text(_hasil, style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w800, color: Color(0xFF4338CA))),
           ],
