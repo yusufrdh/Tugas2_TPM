@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:flutter_application_1/controllers/ganjilgenap_controller.dart';
 
 class GanjilGenapPage extends StatefulWidget {
   const GanjilGenapPage({super.key});
@@ -9,27 +9,15 @@ class GanjilGenapPage extends StatefulWidget {
 
 class _GanjilGenapPageState extends State<GanjilGenapPage> {
   final TextEditingController _controller = TextEditingController();
+  final GanjilgenapController _ganjilgenapController = GanjilgenapController();
   String _hasilGanjilGenap = "";
   String _hasilPrima = "";
 
-  bool isPrime(int number) {
-    if (number <= 1) return false;
-    for (int i = 2; i <= sqrt(number); i++) {
-      if (number % i == 0) return false;
-    }
-    return true;
-  }
-
   void cekBilangan() {
     setState(() {
-      int? angka = int.tryParse(_controller.text);
-      if (angka == null) {
-        _hasilGanjilGenap = "Input Invalid";
-        _hasilPrima = "";
-      } else {
-        _hasilGanjilGenap = (angka % 2 == 0) ? "Bilangan Genap" : "Bilangan Ganjil";
-        _hasilPrima = isPrime(angka) ? "Bilangan Prima" : "Bukan Prima";
-      }
+      var (ganjilGenap, prima) = _ganjilgenapController.cekBilangan(num: _controller);
+      _hasilGanjilGenap = ganjilGenap;
+      _hasilPrima = prima;
     });
   }
 
@@ -41,7 +29,7 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
         padding: const EdgeInsets.all(28.0),
         child: Column(
           children: [
-            TextField(controller: _controller, keyboardType: TextInputType.number, decoration: const InputDecoration(hintText: "Masukkan 1 Angka", prefixIcon: Icon(Icons.tag_rounded))),
+            TextField(controller: _controller, keyboardType: TextInputType.number, maxLength: 10, decoration: const InputDecoration(hintText: "Masukkan 1 Angka", prefixIcon: Icon(Icons.tag_rounded))),
             const SizedBox(height: 24),
             SizedBox(width: double.infinity, child: ElevatedButton(onPressed: cekBilangan, child: const Text("CEK STATUS BILANGAN"))),
             const SizedBox(height: 40),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controllers/jumlah_controller.dart';
 
 class JumlahPage extends StatefulWidget {
   const JumlahPage({super.key});
@@ -8,18 +9,12 @@ class JumlahPage extends StatefulWidget {
 
 class _JumlahPageState extends State<JumlahPage> {
   final TextEditingController _controller = TextEditingController();
+  final JumlahController _jumlahController = JumlahController();
   String hasil = "0";
 
   void hitungJumlah() {
     setState(() {
-      try {
-        List<String> parts = _controller.text.split(RegExp(r'[,\s]+'));
-        List<int> angka = parts.where((e) => e.isNotEmpty).map((e) => int.parse(e.trim())).toList();
-        int total = angka.fold(0, (sum, item) => sum + item);
-        hasil = total.toString();
-      } catch (e) {
-        hasil = "Error";
-      }
+      hasil = _jumlahController.Penjumlahan(penjumlahan: _controller);
     });
   }
 

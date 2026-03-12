@@ -173,7 +173,7 @@ class _HomePageState extends State<HomePage> {
                 const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(color: Color(0xFF4F46E5), height: 1)),
                 _buildTeamMember("M. Bintang Al-Kautsar", "123230137"),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 12), child: Divider(color: Color(0xFF4F46E5), height: 1)),
-                _buildTeamMember("Irham Hadi Putra", "123230042"),
+                _buildTeamMember("M. Irham Hadi Putra", "123230042"),
               ],
             ),
           ),
