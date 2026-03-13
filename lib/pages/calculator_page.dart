@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/calculator_controller.dart';
 
 class CalculatorPage extends StatefulWidget {
   const CalculatorPage({super.key});
@@ -9,18 +10,12 @@ class CalculatorPage extends StatefulWidget {
 class _CalculatorPageState extends State<CalculatorPage> {
   final TextEditingController _controller1 = TextEditingController();
   final TextEditingController _controller2 = TextEditingController();
+  final CalculatorController _calculatorController = CalculatorController();
   String _hasil = "0";
 
   void _calculate(String operator) {
-    final double? num1 = double.tryParse(_controller1.text);
-    final double? num2 = double.tryParse(_controller2.text);
-    if (num1 == null || num2 == null) {
-      setState(() => _hasil = "Error");
-      return;
-    }
     setState(() {
-      if (operator == '+') _hasil = (num1 + num2).toStringAsFixed(2).replaceAll(RegExp(r'\.00$'), '');
-      if (operator == '-') _hasil = (num1 - num2).toStringAsFixed(2).replaceAll(RegExp(r'\.00$'), '');
+      _hasil = _calculatorController.Calculate(Controller1: _controller1, Controller2: _controller2, operator: operator);
     });
   }
 

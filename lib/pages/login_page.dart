@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/controller/auth_controller.dart';
 import 'home_page.dart';
 
 class LoginPage extends StatefulWidget {
@@ -10,19 +11,12 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController _nimController = TextEditingController();
+  final AuthController _AuthController = AuthController();
   String errorMessage = "";
 
-  final Map<String, String> validUsers = {
-    '123230188': 'Yusuf Nur Ramadhan',
-    '123230115': 'Kevin Dwi Cahyadi',
-    '123230137': 'M. Bintang Al-Kautsar',
-    '123230042': 'Irham Hadi Putra',
-  };
-
   void _login() {
-    String inputNim = _nimController.text.trim();
-    if (validUsers.containsKey(inputNim)) {
-      String userName = validUsers[inputNim]!;
+    String userName = _AuthController.AuthLogin(NIM : _nimController);
+    if (userName != "") {
       Navigator.pushReplacement(
         context, 
         MaterialPageRoute(builder: (context) => HomePage(userName: userName))

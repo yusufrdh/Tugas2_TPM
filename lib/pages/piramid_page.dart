@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
+import 'package:flutter_application_1/controller/piramid_controller.dart';
 
 class PiramidPage extends StatefulWidget {
   const PiramidPage({super.key});
@@ -10,23 +10,15 @@ class PiramidPage extends StatefulWidget {
 class _PiramidPageState extends State<PiramidPage> {
   final TextEditingController _sisiController = TextEditingController();
   final TextEditingController _tinggiController = TextEditingController();
+  final PiramidController _piramidController = PiramidController();
   String _hasilLuas = "0";
   String _hasilVolume = "0";
 
   void _hitungPiramid() {
-    final double? s = double.tryParse(_sisiController.text);
-    final double? t = double.tryParse(_tinggiController.text);
-    if (s == null || t == null) {
-      setState(() { _hasilLuas = "Error"; _hasilVolume = "Error"; });
-      return;
-    }
-    double volume = (1 / 3) * (s * s) * t;
-    double tinggiSegitiga = sqrt(pow((s / 2), 2) + pow(t, 2));
-    double luasPermukaan = (s * s) + (4 * 0.5 * s * tinggiSegitiga);
-
+    var (volume, luas) = _piramidController.Calculate(Controller1: _sisiController, Controller2: _tinggiController);
     setState(() {
-      _hasilVolume = volume.toStringAsFixed(2);
-      _hasilLuas = luasPermukaan.toStringAsFixed(2);
+      _hasilVolume = volume;
+      _hasilLuas = luas;
     });
   }
 
