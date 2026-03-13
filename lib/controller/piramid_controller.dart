@@ -9,7 +9,7 @@ class PiramidController {
     double? s = double.tryParse(sisiController.text);
     double? t = double.tryParse(tinggiController.text);
 
-    if (s == null || t == null) {
+    if (s == null || t == null || s <= 0 || t <= 0) {
       return ("Error", "Error");
     }
 
