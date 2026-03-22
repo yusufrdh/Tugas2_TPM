@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:decimal/decimal.dart';
 
 class CalculatorController {
 
@@ -8,15 +9,24 @@ class CalculatorController {
     required String operator
   }) {
     String hasil = "";
-    final double? num1 = double.tryParse(Controller1.text);
-    final double? num2 = double.tryParse(Controller2.text);
+    
+    final Decimal? num1 = Decimal.tryParse(Controller1.text);
+    final Decimal? num2 = Decimal.tryParse(Controller2.text);
+    
     if (num1 == null || num2 == null) {
       hasil = "Error";
     } else {
-      if (operator == '+') hasil = (num1 + num2).toStringAsFixed(2).replaceAll(RegExp(r'\.00$'), '');
-      if (operator == '-') hasil = (num1 - num2).toStringAsFixed(2).replaceAll(RegExp(r'\.00$'), '');
+      if (operator == '+') hasil = (num1 + num2).toString();
+      if (operator == '-') hasil = (num1 - num2).toString();
+      if (operator == '*') hasil = (num1 * num2).toString();
+      if (operator == '/') {
+        if (num2 == Decimal.zero) {
+          hasil = "Error: Dibagi Nol";
+        } else {
+          hasil = (num1.toDouble() / num2.toDouble()).toStringAsFixed(2).replaceAll(RegExp(r'\.00$'), '');
+        }
+      }
     }
     return hasil;
   }
-
 }

@@ -5,6 +5,7 @@ import 'ganjil_genap_page.dart';
 import 'jumlah_page.dart';
 import 'stopwatch_page.dart';
 import 'piramid_page.dart';
+import 'date_calculator_page.dart';
 
 class HomePage extends StatefulWidget {
   final String userName;
@@ -218,6 +219,16 @@ class _HomePageState extends State<HomePage> {
                   onTap: () => Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => const JumlahPage()),
+                  ),
+                ),
+                // INI FITUR BARUNYE BOSKU
+                _buildMenuCard(
+                  context,
+                  "Penanggalan",
+                  Icons.calendar_month_rounded,
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const DateCalculatorPage()),
                   ),
                 ),
               ],
