@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 class GanjilgenapController {
   bool isPrime(int N){
-    if(N < 3) return true;
+    if (N <= 1) return false;
+    if (N == 2 || N == 3) return true;
     int i = 2;
     double temp = sqrt(N);
     int k = temp.ceil();
@@ -22,7 +23,8 @@ class GanjilgenapController {
     int? angka = int.tryParse(num.text);
     String? genap;
     String? prima;
-    if (angka == null || angka <= 0) {
+
+    if (angka == null) {
       genap = "Input Invalid";
       prima = "";
     } else {

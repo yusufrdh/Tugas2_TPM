@@ -16,10 +16,74 @@ class _StopwatchPageState extends State<StopwatchPage> {
     super.dispose();
   }
 
+  // --- POP UP SUPER KOMPLIT ---
+  void _showCustomTimeDialog() {
+    final TextEditingController dayController = TextEditingController();
+    final TextEditingController hourController = TextEditingController();
+    final TextEditingController minController = TextEditingController();
+    final TextEditingController secController = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+          title: const Text("Custom Start Time", style: TextStyle(fontWeight: FontWeight.bold)),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                children: [
+                  Expanded(child: TextField(controller: dayController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Hari", border: OutlineInputBorder()))),
+                  const SizedBox(width: 10),
+                  Expanded(child: TextField(controller: hourController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Jam", border: OutlineInputBorder()))),
+                ],
+              ),
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  Expanded(child: TextField(controller: minController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Menit", border: OutlineInputBorder()))),
+                  const SizedBox(width: 10),
+                  Expanded(child: TextField(controller: secController, keyboardType: TextInputType.number, decoration: const InputDecoration(labelText: "Detik", border: OutlineInputBorder()))),
+                ],
+              ),
+            ],
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: const Text("Batal", style: TextStyle(color: Colors.grey)),
+            ),
+            TextButton(
+              onPressed: () {
+                int d = int.tryParse(dayController.text) ?? 0;
+                int h = int.tryParse(hourController.text) ?? 0;
+                int m = int.tryParse(minController.text) ?? 0;
+                int s = int.tryParse(secController.text) ?? 0;
+                _controller.setCustomStart(d, h, m, s);
+                Navigator.pop(context);
+              },
+              child: const Text("Set Waktu", style: TextStyle(color: Color(0xFF4338CA), fontWeight: FontWeight.bold)),
+            )
+          ],
+        );
+      }
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Stopwatch")),
+      appBar: AppBar(
+        title: const Text("Stopwatch"),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.more_vert_rounded),
+            onPressed: _showCustomTimeDialog,
+          )
+        ],
+      ),
       body: ListenableBuilder(
         listenable: _controller,
         builder: (context, child) {
@@ -31,20 +95,24 @@ class _StopwatchPageState extends State<StopwatchPage> {
                   width: 260,
                   height: 260,
                   alignment: Alignment.center,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     color: Colors.white,
                     boxShadow: [BoxShadow(color: const Color(0xFF4338CA).withOpacity(0.08), blurRadius: 30, spreadRadius: 5)],
                     border: Border.all(color: const Color(0xFFE2E8F0), width: 2), 
                   ),
-                  child: Text(
-                    _controller.formattedTime,
-                    style: const TextStyle(
-                      fontSize: 52, 
-                      fontWeight: FontWeight.w300, 
-                      letterSpacing: 2, 
-                      fontFeatures: [FontFeature.tabularFigures()], 
-                      color: Color(0xFF4338CA)
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      _controller.formattedTime,
+                      style: const TextStyle(
+                        fontSize: 52,
+                        fontWeight: FontWeight.w300, 
+                        letterSpacing: 2, 
+                        fontFeatures: [FontFeature.tabularFigures()], 
+                        color: Color(0xFF4338CA)
+                      ),
                     ),
                   ),
                 ),
@@ -54,7 +122,6 @@ class _StopwatchPageState extends State<StopwatchPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    // Tombol Reset
                     _buildControlButton(
                       icon: Icons.refresh_rounded,
                       color: const Color(0xFF94A3B8), 
