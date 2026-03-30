@@ -1,18 +1,30 @@
 import 'package:flutter/material.dart';
 
 class JumlahController {
-  String Penjumlahan ({
-    required TextEditingController penjumlahan
-  }){
-    String hasil = "";
-    try {
-      List<String> parts = penjumlahan.text.split(RegExp(r'[,\s]+'));
-      List<int> angka = parts.where((e) => e.isNotEmpty).map((e) => int.parse(e.trim())).toList();
-      int total = angka.fold(0, (sum, item) => sum + item);
-      hasil = total.toString();
-    } catch (e) {
-      hasil = "Error";
+  
+  // Mengembalikan Map berisi angka apa saja yang muncul dan berapa jumlahnya
+  Map<String, int> hitungAngka({required TextEditingController textController}) {
+    String input = textController.text;
+    Map<String, int> counts = {};
+
+    // Cek karakter satu per satu dari seluruh teks
+    for (int i = 0; i < input.length; i++) {
+      String char = input[i];
+      
+      // Jika karakter tersebut adalah angka (0 sampai 9)
+      if (RegExp(r'[0-9]').hasMatch(char)) {
+        // Tambahkan hitungannya (+1)
+        counts[char] = (counts[char] ?? 0) + 1;
+      }
     }
-    return hasil;
+
+    // (Opsional tapi rapi) Urutkan hasilnya dari angka 0 sampai 9
+    var sortedKeys = counts.keys.toList()..sort();
+    Map<String, int> sortedCounts = {};
+    for (var key in sortedKeys) {
+      sortedCounts[key] = counts[key]!;
+    }
+
+    return sortedCounts;
   }
 }

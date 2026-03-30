@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart'; // WAJIB DITAMBAHKAN untuk FilteringTextInputFormatter
 import '../controller/piramid_controller.dart';
 
 class PiramidPage extends StatelessWidget {
@@ -113,11 +114,9 @@ class PiramidPage extends StatelessWidget {
                 color: Color(0xFFEEF2FF),
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: Color(0xFF4F46E5)),
+              child: Icon(icon, color: const Color(0xFF4F46E5)),
             ),
-
             const SizedBox(width: 16),
-
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -134,7 +133,6 @@ class PiramidPage extends StatelessWidget {
                 ],
               ),
             ),
-
             const Icon(Icons.arrow_forward_ios, size: 16),
           ],
         ),
@@ -163,6 +161,17 @@ class _LuasPiramidPageState extends State<LuasPiramidPage> {
   String hasil = "0";
 
   void hitung() {
+    if (sisiController.text.isEmpty || tinggiController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Masukan angka tidak boleh kosong!"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
     var result = controller.calculate(
       sisiController: sisiController,
       tinggiController: tinggiController,
@@ -185,31 +194,34 @@ class _LuasPiramidPageState extends State<LuasPiramidPage> {
       appBar: AppBar(title: const Text("Luas Permukaan Piramid")),
       body: Padding(
         padding: const EdgeInsets.all(24),
-
         child: Column(
           children: [
             TextField(
               controller: sisiController,
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              ],
               decoration: const InputDecoration(
                 labelText: "Sisi Alas (s)",
                 prefixIcon: Icon(Icons.square_foot),
               ),
             ),
-
             const SizedBox(height: 16),
-
             TextField(
               controller: tinggiController,
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              ],
               decoration: const InputDecoration(
                 labelText: "Tinggi Piramid (t)",
                 prefixIcon: Icon(Icons.height),
               ),
             ),
-
             const SizedBox(height: 25),
-
             Row(
               children: [
                 Expanded(
@@ -218,12 +230,11 @@ class _LuasPiramidPageState extends State<LuasPiramidPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[300],
                     ),
-                    child: const Text("Reset"),
+                    child: const Text("Reset",
+                        style: TextStyle(color: Colors.black87)),
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
@@ -233,9 +244,7 @@ class _LuasPiramidPageState extends State<LuasPiramidPage> {
                 ),
               ],
             ),
-
             const SizedBox(height: 40),
-
             _hasilCard("Luas Permukaan", hasil, "satuan²"),
           ],
         ),
@@ -264,6 +273,17 @@ class _VolumePiramidPageState extends State<VolumePiramidPage> {
   String hasil = "0";
 
   void hitung() {
+    if (sisiController.text.isEmpty || tinggiController.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Masukan angka tidak boleh kosong!"),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 2),
+        ),
+      );
+      return;
+    }
+
     var result = controller.calculate(
       sisiController: sisiController,
       tinggiController: tinggiController,
@@ -286,31 +306,34 @@ class _VolumePiramidPageState extends State<VolumePiramidPage> {
       appBar: AppBar(title: const Text("Volume Piramid")),
       body: Padding(
         padding: const EdgeInsets.all(24),
-
         child: Column(
           children: [
             TextField(
               controller: sisiController,
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              ],
               decoration: const InputDecoration(
                 labelText: "Sisi Alas (s)",
                 prefixIcon: Icon(Icons.square_foot),
               ),
             ),
-
             const SizedBox(height: 16),
-
             TextField(
               controller: tinggiController,
-              keyboardType: TextInputType.number,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              inputFormatters: [
+                FilteringTextInputFormatter.allow(RegExp(r'[0-9.]')),
+              ],
               decoration: const InputDecoration(
                 labelText: "Tinggi Piramid (t)",
                 prefixIcon: Icon(Icons.height),
               ),
             ),
-
             const SizedBox(height: 25),
-
             Row(
               children: [
                 Expanded(
@@ -319,12 +342,11 @@ class _VolumePiramidPageState extends State<VolumePiramidPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.grey[300],
                     ),
-                    child: const Text("Reset"),
+                    child: const Text("Reset",
+                        style: TextStyle(color: Colors.black87)),
                   ),
                 ),
-
                 const SizedBox(width: 12),
-
                 Expanded(
                   flex: 2,
                   child: ElevatedButton(
@@ -334,9 +356,7 @@ class _VolumePiramidPageState extends State<VolumePiramidPage> {
                 ),
               ],
             ),
-
             const SizedBox(height: 40),
-
             _hasilCard("Volume", hasil, "satuan³"),
           ],
         ),
@@ -346,7 +366,7 @@ class _VolumePiramidPageState extends State<VolumePiramidPage> {
 }
 
 ////////////////////////////////////////////////////////////
-/// CARD HASIL
+/// CARD HASIL 
 ////////////////////////////////////////////////////////////
 
 Widget _hasilCard(String title, String value, String unit) {
@@ -355,31 +375,32 @@ Widget _hasilCard(String title, String value, String unit) {
     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
     child: Padding(
       padding: const EdgeInsets.all(20),
-
       child: Column(
         children: [
           Text(title, style: const TextStyle(fontSize: 16, color: Colors.grey)),
-
           const SizedBox(height: 10),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Color(0xFF4F46E5),
+              Flexible(
+                child: Text(
+                  value,
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4F46E5),
+                  ),
                 ),
               ),
-
               const SizedBox(width: 6),
-
-              Text(
-                unit,
-                style: const TextStyle(fontSize: 16, color: Colors.grey),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Text(
+                  unit,
+                  style: const TextStyle(fontSize: 16, color: Colors.grey),
+                ),
               ),
             ],
           ),
