@@ -7,13 +7,16 @@ class JumlahController extends ChangeNotifier {
 
   void hitungSemua(TextEditingController textController) {
     String input = textController.text;
-    
+
     // 1. Hitung Detail Karakter (Spasi diabaikan)
     Map<String, int> counts = {};
     for (int i = 0; i < input.length; i++) {
       String char = input[i];
-      if (char == ' ') continue; 
-      counts[char] = (counts[char] ?? 0) + 1;
+
+      if (char == ' ') continue;
+      if (RegExp(r'[0-9]').hasMatch(char)) {
+        counts[char] = (counts[char] ?? 0) + 1;
+      }
     }
 
     // Urutkan hasilnya biar rapi

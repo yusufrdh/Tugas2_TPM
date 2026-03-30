@@ -4,14 +4,14 @@ import 'package:decimal/decimal.dart';
 class CalculatorController {
 
   String Calculate({
+    required String num,
     required TextEditingController Controller1,
-    required TextEditingController Controller2,
     required String operator
   }) {
     String hasil = "";
     
-    final Decimal? num1 = Decimal.tryParse(Controller1.text);
-    final Decimal? num2 = Decimal.tryParse(Controller2.text);
+    final Decimal? num1 = Decimal.tryParse(num);
+    final Decimal? num2 = Decimal.tryParse(Controller1.text);
     
     if (num1 == null || num2 == null) {
       hasil = "Error";

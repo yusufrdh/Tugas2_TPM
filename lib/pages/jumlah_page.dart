@@ -71,9 +71,10 @@ class _JumlahPageState extends State<JumlahPage> {
                           const SizedBox(width: 8),
                           ElevatedButton(
                             style: ElevatedButton.styleFrom(
+                              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                               backgroundColor: const Color(0xFF4338CA),
                               foregroundColor: Colors.white,
-                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12))
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))
                             ),
                             onPressed: () {
                               // Lempar controller inputan ke mesin hitung

@@ -3,47 +3,48 @@ import 'package:flutter/material.dart';
 class GanjilgenapController {
   (String, String) cekBilangan({required TextEditingController num}) {
     String input = num.text.trim();
-    if (input.isEmpty) return ("Input Kosong", "Input Kosong");
+    if (input.isEmpty || input == "-") return ("Input Invalid", "Input Invalid");
 
-    /// 1. LOGIKA GANJIL/GENAP (Anti-Error)
-    /// Berapapun panjang angkanya (mau 1000 digit sekalipun), kita cuma perlu
-    /// melihat 1 angka paling ujung belakangnya saja.
-    int digitTerakhir = int.parse(input.substring(input.length - 1));
-    String statusGanjilGenap =
-        (digitTerakhir % 2 == 0) ? "Bilangan Genap" : "Bilangan Ganjil";
+    /// 1. LOGIKA GANJIL/GENAP (Pake BigInt biar aman angka gaban & minus)
+    /// Daripada parsing string yang rawan salah kalo ada minus, 
+    /// mending parsing full angka ke BigInt, terus cek isEven-nya.
+    BigInt angka;
+    try {
+      angka = BigInt.parse(input);
+    } catch (e) {
+      return ("Angka Terlalu Ekstrem / Invalid", "Input Invalid");
+    }
 
-    /// 2. LOGIKA PRIMA (Menggunakan BigInt)
+    String statusGanjilGenap = angka.isEven ? "Bilangan Genap" : "Bilangan Ganjil";
+    // Kalo minus, kita tambahin teks biar jelas
+    if (angka < BigInt.zero) {
+      statusGanjilGenap = "$statusGanjilGenap (Negatif)";
+    }
+
+    /// 2. LOGIKA PRIMA
     String statusPrima = "Bukan Bilangan Prima";
 
-    try {
-      BigInt angka = BigInt.parse(input);
-
-      if (angka <= BigInt.one) {
-        statusPrima = "Bukan Bilangan Prima";
-      } else if (angka == BigInt.two) {
-        statusPrima = "Bilangan Prima";
-      } else if (angka.isEven) {
-        // TRIK CEPAT: Kalau angkanya genap (seperti di screenshot kamu yang ujungnya angka 2),
-        // program tidak perlu mikir lama, otomatis BUKAN prima.
-        statusPrima = "Bukan Bilangan Prima";
+    // Bilangan negatif secara matematis BUKAN bilangan prima
+    if (angka <= BigInt.one) {
+      statusPrima = "Bukan Bilangan Prima";
+    } else if (angka == BigInt.two) {
+      statusPrima = "Bilangan Prima";
+    } else if (angka.isEven) {
+      statusPrima = "Bukan Bilangan Prima";
+    } else {
+      // Proteksi angka gaban ganjil
+      if (angka > BigInt.parse("999999999999999")) {
+        statusPrima = "Terlalu besar untuk dicek primanya";
       } else {
-        // Proteksi agar emulator tidak freeze jika mengetik angka ganjil terlalu panjang
-        if (angka > BigInt.parse("999999999999999")) {
-          statusPrima = "Terlalu besar untuk dicek primanya";
-        } else {
-          // Logika penghitungan bilangan prima normal
-          bool isPrima = true;
-          for (BigInt i = BigInt.from(3); i * i <= angka; i += BigInt.two) {
-            if (angka % i == BigInt.zero) {
-              isPrima = false;
-              break;
-            }
+        bool isPrima = true;
+        for (BigInt i = BigInt.from(3); i * i <= angka; i += BigInt.two) {
+          if (angka % i == BigInt.zero) {
+            isPrima = false;
+            break;
           }
-          statusPrima = isPrima ? "Bilangan Prima" : "Bukan Bilangan Prima";
         }
+        statusPrima = isPrima ? "Bilangan Prima" : "Bukan Bilangan Prima";
       }
-    } catch (e) {
-      return (statusGanjilGenap, "Input Invalid");
     }
 
     return (statusGanjilGenap, statusPrima);

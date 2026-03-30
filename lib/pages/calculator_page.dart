@@ -15,7 +15,7 @@ class _CalculatorPageState extends State<CalculatorPage> {
   String _hasil = "0";
 
   void _calculate(String operator) {
-    if (_controller1.text.isEmpty || _controller2.text.isEmpty) {
+    if (_controller1.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Angka tidak boleh kosong!"),
@@ -28,10 +28,12 @@ class _CalculatorPageState extends State<CalculatorPage> {
 
     setState(() {
       _hasil = _calculatorController.Calculate(
+          num: _hasil,
           Controller1: _controller1,
-          Controller2: _controller2,
           operator: operator);
     });
+
+    _controller1.clear();
   }
 
   @override
@@ -50,23 +52,11 @@ class _CalculatorPageState extends State<CalculatorPage> {
                 FilteringTextInputFormatter.allow(RegExp(r'[0-9.\-]')),
               ],
               decoration: const InputDecoration(
-                hintText: "Angka Pertama",
+                hintText: "Input Angka",
                 prefixIcon: Icon(Icons.looks_one_rounded),
               ),
             ),
             const SizedBox(height: 16),
-            TextField(
-              controller: _controller2,
-              keyboardType: const TextInputType.numberWithOptions(
-                  decimal: true, signed: true),
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp(r'[0-9.\-]')),
-              ],
-              decoration: const InputDecoration(
-                hintText: "Angka Kedua",
-                prefixIcon: Icon(Icons.looks_two_rounded),
-              ),
-            ),
             const SizedBox(height: 32),
             Row(
               children: [

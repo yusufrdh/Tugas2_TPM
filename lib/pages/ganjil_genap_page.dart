@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/controller/ganjilgenap_controller.dart';
+import 'package:flutter_application_1/controller/ganjilgenap_controller.dart'; // Sesuaikan path lu
 
 class GanjilGenapPage extends StatefulWidget {
   const GanjilGenapPage({super.key});
@@ -15,10 +15,11 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
   String _hasilPrima = "";
 
   void cekBilangan() {
-    if (_controller.text.isEmpty) {
+    // Validasi kosong atau cuma ngetik minus doang
+    if (_controller.text.isEmpty || _controller.text == "-") {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Angka tidak boleh kosong!"),
+          content: Text("Angka tidak valid!"),
           backgroundColor: Colors.red,
           duration: Duration(seconds: 2),
         ),
@@ -44,12 +45,11 @@ class _GanjilGenapPageState extends State<GanjilGenapPage> {
           children: [
             TextField(
               controller: _controller,
-              keyboardType: TextInputType.number,
-              maxLines:
-                  1, // Memaksa teks jadi 1 baris dan otomatis scroll ke samping
+              keyboardType: const TextInputType.numberWithOptions(signed: true), // Nyalain keyboard minus
+              maxLines: 1, 
               inputFormatters: [
-                FilteringTextInputFormatter
-                    .digitsOnly, // Anti spasi, minus, dan huruf
+                // Regex baru: Bolehin minus di awal, abis itu full angka. Anti titik/koma.
+                FilteringTextInputFormatter.allow(RegExp(r'^-?[0-9]*')),
               ],
               decoration: const InputDecoration(
                 hintText: "Masukkan Angka",

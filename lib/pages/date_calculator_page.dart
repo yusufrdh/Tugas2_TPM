@@ -22,7 +22,7 @@ class _DateCalculatorPageState extends State<DateCalculatorPage> {
     DateTime? date = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime(1900),
+      firstDate: DateTime(1938),
       lastDate:
           DateTime.now(), // Membatasi max hari ini agar tidak milih masa depan
       helpText: "PILIH TANGGAL LAHIR",
