@@ -10,12 +10,8 @@ class JumlahController {
     // Cek karakter satu per satu dari seluruh teks
     for (int i = 0; i < input.length; i++) {
       String char = input[i];
-      
-      // Jika karakter tersebut adalah angka (0 sampai 9)
-      if (RegExp(r'[0-9]').hasMatch(char)) {
-        // Tambahkan hitungannya (+1)
-        counts[char] = (counts[char] ?? 0) + 1;
-      }
+      if(char == ' ') continue;
+      counts[char] = (counts[char] ?? 0) + 1;
     }
 
     // (Opsional tapi rapi) Urutkan hasilnya dari angka 0 sampai 9
