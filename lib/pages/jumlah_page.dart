@@ -10,29 +10,90 @@ class JumlahPage extends StatefulWidget {
 class _JumlahPageState extends State<JumlahPage> {
   final TextEditingController _controller = TextEditingController();
   final JumlahController _jumlahController = JumlahController();
-  String hasil = "0";
+  
+  Map<String, int> _hasilCount = {};
+  bool _sudahDihitung = false;
 
   void hitungJumlah() {
+    if (_controller.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Teks tidak boleh kosong!"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
     setState(() {
-      hasil = _jumlahController.Penjumlahan(penjumlahan: _controller);
+      _hasilCount = _jumlahController.hitungAngka(textController: _controller);
+      _sudahDihitung = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Jumlah Total")),
-      body: Padding(
+      appBar: AppBar(title: const Text("Penghitung Angka")),
+      body: SingleChildScrollView(
         padding: const EdgeInsets.all(28.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start, 
           children: [
-            TextField(controller: _controller, keyboardType: TextInputType.text, decoration: const InputDecoration(hintText: "Contoh: 10, 20, 30", prefixIcon: Icon(Icons.add_circle_outline_rounded))),
+            TextField(
+              controller: _controller,
+              keyboardType: TextInputType.multiline,
+              minLines: 3, 
+              maxLines: 7,
+              decoration: const InputDecoration(
+                hintText: "Paste paragraf teks acak di sini...", 
+                border: OutlineInputBorder(), 
+                alignLabelWithHint: true,
+              ),
+            ),
             const SizedBox(height: 24),
-            SizedBox(width: double.infinity, child: ElevatedButton(onPressed: hitungJumlah, child: const Text("HITUNG TOTAL"))),
-            const SizedBox(height: 48),
-            const Text("Hasil Total Penjumlahan", style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Color(0xFF94A3B8))),
-            const SizedBox(height: 8),
-            Text(hasil, style: const TextStyle(fontSize: 56, fontWeight: FontWeight.w800, color: Color(0xFF4338CA))),
+            SizedBox(
+              width: double.infinity, 
+              child: ElevatedButton(
+                onPressed: hitungJumlah, 
+                child: const Text("HITUNG KEMUNCULAN ANGKA")
+              )
+            ),
+            const SizedBox(height: 40),
+            
+            if (_sudahDihitung) ...[
+              const Text(
+                "Total angka:", 
+                style: TextStyle(
+                  fontSize: 16, 
+                  fontWeight: FontWeight.bold, 
+                  color: Color(0xFF1E293B)
+                )
+              ),
+              const SizedBox(height: 12),
+              
+              if (_hasilCount.isEmpty)
+                const Text(
+                  "Tidak ada angka yang ditemukan.",
+                  style: TextStyle(fontSize: 16, color: Colors.red),
+                )
+              else
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: _hasilCount.entries.map((entry) {
+                    return Padding(
+                      padding: const EdgeInsets.only(bottom: 8.0), 
+                      child: Text(
+                        "- Angka ${entry.key} = ${entry.value} karakter",
+                        style: const TextStyle(
+                          fontSize: 16, 
+                          color: Color(0xFF334155)
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+            ]
           ],
         ),
       ),
